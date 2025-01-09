@@ -1,7 +1,11 @@
-package jfdev.apitodolist.model;
+package jfdev.apitodolist.model.task;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jfdev.apitodolist.model.comment.Comment;
+import jfdev.apitodolist.model.user.User;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +16,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Data
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +25,10 @@ public class Task {
     private String description;
     private LocalDate finalDate;
     private boolean completed;
-    @OneToMany(mappedBy = "task")
-    private ArrayList<Comment> comment;
+//    @OneToMany(mappedBy = "task")
+//    private ArrayList<Comment> comment;
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private User user;
 }

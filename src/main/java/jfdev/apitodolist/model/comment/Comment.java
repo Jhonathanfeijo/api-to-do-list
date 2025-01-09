@@ -1,6 +1,7 @@
-package jfdev.apitodolist.model;
+package jfdev.apitodolist.model.comment;
 
 import jakarta.persistence.*;
+import jfdev.apitodolist.model.task.Task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

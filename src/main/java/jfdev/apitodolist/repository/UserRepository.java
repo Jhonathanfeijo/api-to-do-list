@@ -1,6 +1,6 @@
 package jfdev.apitodolist.repository;
 
-import jfdev.apitodolist.model.User;
+import jfdev.apitodolist.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

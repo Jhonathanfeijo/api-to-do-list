@@ -5,7 +5,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jfdev.apitodolist.repository.UserRepository;
+import jfdev.apitodolist.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +23,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UserRepository UserRepository;
-    @Autowired
     private UserRepository userRepository;
 
     @Override
@@ -34,7 +34,6 @@ public class SecurityFilter extends OncePerRequestFilter {
             UserDetails user = userRepository.findByEmail(subject);
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
         }
         filterChain.doFilter(request, response);
     }
@@ -42,7 +41,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private String recoverToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if (token == null)
-            return null;
+            return token;
         token = token.replace("Bearer ", "");
         return token;
     }
