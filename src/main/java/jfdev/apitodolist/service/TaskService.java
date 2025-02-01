@@ -26,13 +26,12 @@ public class TaskService {
 
     public Task saveTask(TaskRegisterRequest request) {
 
-        Optional<User> user = userRepository.findById(request.getIdUser());
-        if(user == null)
-            throw new RuntimeException("User not found");
+        User user = userRepository.findById(request.getIdUser()).orElseThrow(() -> new RuntimeException(("User not found")));
 
         Task task = new Task();
-        task.setUser(user.get());
+        task.setUser(user);
         task.setCompleted(false);
+        task.setCreatedAt(request.getCreateDate());
         task.setTitle(request.getTitle());
         task.setFinalDate(request.getFinalDate());
 
@@ -40,20 +39,17 @@ public class TaskService {
     }
 
     public Task getTaskById(Long taskId) {
-        Optional<Task> task = taskRepository.findById(taskId);
-        if(task == null)
-            throw new RuntimeException("Task not found");
-        return task.get();
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException(("Task not found")));
+        return task;
     }
 
     public void deleteTask(Long taskId) {
-        Optional<Task> task = taskRepository.findById(taskId);
-        if(task == null)
+        if(!taskRepository.existsById(taskId))
             throw new RuntimeException("Task not found");
+        taskRepository.deleteById(taskId);
     }
 
     public Task updateTask(Task task) {
-        deleteTask(task.getId());
         return taskRepository.save(task);
     }
 }

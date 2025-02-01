@@ -23,6 +23,7 @@ public class Task {
     private Long id;
     private String title;
     private String description;
+    private LocalDate createdAt;
     private LocalDate finalDate;
     private boolean completed;
 //    @OneToMany(mappedBy = "task")

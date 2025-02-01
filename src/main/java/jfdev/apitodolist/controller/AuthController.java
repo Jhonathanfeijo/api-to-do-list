@@ -41,6 +41,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Usuário já cadastrado");
         URI uri = uriBuilder.path("/users/{id}").buildAndExpand(usuario.getId()).toUri();
 
+
+
         return ResponseEntity.created(uri).body(usuario.getName());
     }
 
@@ -54,8 +56,20 @@ public class AuthController {
         if(auth == null)
             throw new RuntimeException("Invalid username or password");
         String token = tokenService.generateToken((User) auth.getPrincipal());
+        User user = (User) auth.getPrincipal();
 
-        return ResponseEntity.ok(token);
+        class AuthUserInfo{
+            public final Long idUser;
+            public final String name;
+            public final String token;
 
+            public AuthUserInfo(Long idUser, String name, String token) {
+                this.idUser = idUser;
+                this.name = name;
+                this.token = token;
+            }
+        }
+
+        return ResponseEntity.ok(new AuthUserInfo(user.getId(), user.getName(), token));
     }
 }

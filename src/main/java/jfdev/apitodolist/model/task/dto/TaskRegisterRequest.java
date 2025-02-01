@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class TaskRegisterRequest {
     private String title;
+    private LocalDate createDate;
     private LocalDate finalDate;
     private Long idUser;
 }
